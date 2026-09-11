@@ -20,7 +20,6 @@ console.log("=".repeat(70));
 // - attendance (0-100)
 // - homework (0-100)  
 // - exam (0-100)
-//
 // Use these weights:
 // - Attendance: 20%
 // - Homework: 30%
@@ -34,14 +33,28 @@ console.log("=".repeat(70));
 // Should return: { finalScore: 90.6, letterGrade: 'A' }
 
 function calculateStudentScore(attendance, homework, exam) {
-    // TODO: Implement this function
-    // Your code here
+    const finalScore = (attendance * 0.2) + (homework * 0.3) + (exam * 0.5);
+    let letterGrade;
+
+    if (finalScore >= 90) {
+        letterGrade = 'A';
+    } else if (finalScore >= 80) {
+        letterGrade = 'B';
+    } else if (finalScore >= 70) {
+        letterGrade = 'C';
+    } else {
+        letterGrade = 'F';
+    }
+
+    return {
+        finalScore: finalScore,
+        letterGrade: letterGrade
+    };
 }
 
-// Test your function (uncomment when ready)
-// console.log("Q1.1 Test 1:", calculateStudentScore(95, 88, 92));
-// console.log("Q1.1 Test 2:", calculateStudentScore(85, 75, 80));
-// console.log("Q1.1 Test 3:", calculateStudentScore(70, 68, 65));
+console.log("Q1.1 Test 1:", calculateStudentScore(95, 88, 92));
+console.log("Q1.1 Test 2:", calculateStudentScore(85, 75, 80));
+console.log("Q1.1 Test 3:", calculateStudentScore(70, 68, 65));
 
 
 // QUESTION 1.2: Practical Application (15 Points)
@@ -67,8 +80,24 @@ function calculateStudentScore(attendance, homework, exam) {
 // ]
 
 function gradeMultipleStudents(studentsArray) {
-    // TODO: Implement this function
-    // Your code here
+    const gradedStudents = [];
+
+    for (let i = 0; i < studentsArray.length; i++) {
+        const student = studentsArray[i];
+        const score = calculateStudentScore(
+            student.attendance,
+            student.homework,
+            student.exam
+        );
+
+        gradedStudents.push({
+            name: student.name,
+            finalScore: score.finalScore,
+            letterGrade: score.letterGrade
+        });
+    }
+
+    return gradedStudents;
 }
 
 // Test your function with sample students
@@ -78,7 +107,7 @@ const sampleStudents1 = [
     { name: "Kwame", attendance: 78, homework: 72, exam: 75 }
 ];
 
-// console.log("Q1.2 Test:", gradeMultipleStudents(sampleStudents1));
+ console.log("Q1.2 Test:", gradeMultipleStudents(sampleStudents1));
 
 
 
@@ -111,8 +140,27 @@ console.log("=".repeat(70));
 // - studentAdmissionStatus(2.5, 70) → { admitted: false, reason: "Your GPA and exam score do not meet requirements" }
 
 function studentAdmissionStatus(finalGPA, entranceExamScore) {
-    // TODO: Implement this function
-    // Your code here
+    if (finalGPA >= 3.0 && entranceExamScore >= 75) {
+        return {
+            admitted: true,
+            reason: "Congratulations! You meet all requirements."
+        };
+    } else if (finalGPA < 3.0 && entranceExamScore < 75) {
+        return {
+            admitted: false,
+            reason: "Your GPA and exam score do not meet requirements"
+        };
+    } else if (finalGPA < 3.0) {
+        return {
+            admitted: false,
+            reason: "Your GPA is below 3.0"
+        };
+    } else {
+        return {
+            admitted: false,
+            reason: "Your exam score is below 75"
+        };
+    }
 }
 
 // Test your function
@@ -145,8 +193,48 @@ function studentAdmissionStatus(finalGPA, entranceExamScore) {
 // For an unknown course code, return a default object with an error message.
 
 function getCourseTiming(courseCode) {
-    // TODO: Implement this function with switch statement
-    // Your code here
+    switch (courseCode) {
+        case "CS101":
+            return {
+                courseCode: courseCode,
+                courseName: "Introduction to Programming",
+                meetingTime: "MWF 9:00 AM - 10:30 AM",
+                location: "Tech Building 101"
+            };
+        case "MATH202":
+            return {
+                courseCode: courseCode,
+                courseName: "Calculus II",
+                meetingTime: "TTh 10:00 AM - 11:30 AM",
+                location: "Science Building 202"
+            };
+        case "ENG101":
+            return {
+                courseCode: courseCode,
+                courseName: "English Composition",
+                meetingTime: "MWF 11:00 AM - 12:00 PM",
+                location: "Humanities Building 105"
+            };
+        case "PHYS101":
+            return {
+                courseCode: courseCode,
+                courseName: "Introduction to Physics",
+                meetingTime: "TTh 1:00 PM - 2:30 PM",
+                location: "Science Building 110"
+            };
+        case "CHEM101":
+            return {
+                courseCode: courseCode,
+                courseName: "General Chemistry",
+                meetingTime: "MWF 2:00 PM - 3:00 PM",
+                location: "Science Building 115"
+            };
+        default:
+            return {
+                courseCode: courseCode,
+                error: "Course code not found"
+            };
+    }
 }
 
 // Test your function
@@ -171,8 +259,7 @@ function getCourseTiming(courseCode) {
 // Rewrite the function below using ONLY ternary operator(s):
 
 function isStudentEligibleForScholarship(gpa, yearsInSchool) {
-    // TODO: Rewrite using ternary operator
-    // Your code here
+    return gpa >= 3.5 && yearsInSchool >= 2 ? true : false;
 }
 
 // Test your function
@@ -213,8 +300,15 @@ console.log("=".repeat(70));
 // ]
 
 function findTopStudents(studentsArray) {
-    // TODO: Implement using traditional for loop
-    // Your code here
+    const topStudents = [];
+
+    for (let i = 0; i < studentsArray.length; i++) {
+        if (studentsArray[i].gpa >= 3.7) {
+            topStudents.push(studentsArray[i]);
+        }
+    }
+
+    return topStudents;
 }
 
 // Test your function
@@ -250,8 +344,28 @@ const sampleStudents2 = [
 // }
 
 function calculateClassStatistics(scoresArray) {
-    // TODO: Implement using forEach loop
-    // Your code here
+    let totalSum = 0;
+    let highest = scoresArray[0];
+    let lowest = scoresArray[0];
+
+    scoresArray.forEach(function(score) {
+        totalSum += score;
+
+        if (score > highest) {
+            highest = score;
+        }
+
+        if (score < lowest) {
+            lowest = score;
+        }
+    });
+
+    return {
+        totalSum: totalSum,
+        average: totalSum / scoresArray.length,
+        highest: highest,
+        lowest: lowest
+    };
 }
 
 // Test your function
@@ -287,8 +401,32 @@ const testScores = [85, 92, 78, 95, 88, 91, 86];
 // }
 
 function classroomReport(studentsArray) {
-    // TODO: Implement using loops and conditionals
-    // Your code here
+    let honorsStudents = 0;
+    let perfectAttendance = 0;
+    let needsSupport = 0;
+
+    for (let i = 0; i < studentsArray.length; i++) {
+        const student = studentsArray[i];
+
+        if (student.gpa >= 3.7) {
+            honorsStudents++;
+        }
+
+        if (student.attendance >= 95) {
+            perfectAttendance++;
+        }
+
+        if (student.gpa < 2.5) {
+            needsSupport++;
+        }
+    }
+
+    return {
+        totalStudents: studentsArray.length,
+        honorsStudents: honorsStudents,
+        perfectAttendance: perfectAttendance,
+        needsSupport: needsSupport
+    };
 }
 
 // Test your function
@@ -340,8 +478,29 @@ console.log("=".repeat(70));
 // → {success: true, message: "Registration successful!", studentName: "Obi", enrolledCourses: [...], numberOfCourses: 3}
 
 function registerStudent(studentName, gpa, coursesArray) {
-    // TODO: Implement registration function with validation
-    // Your code here
+    if (gpa < 2.0) {
+        return {
+            success: false,
+            message: "Registration denied: GPA must be at least 2.0.",
+            studentName: studentName
+        };
+    }
+
+    if (coursesArray.length > 5) {
+        return {
+            success: false,
+            message: "Registration denied: students may register for a maximum of 5 courses.",
+            studentName: studentName
+        };
+    }
+
+    return {
+        success: true,
+        message: "Registration successful!",
+        studentName: studentName,
+        enrolledCourses: coursesArray,
+        numberOfCourses: coursesArray.length
+    };
 }
 
 // Test
@@ -367,8 +526,34 @@ function registerStudent(studentName, gpa, coursesArray) {
 // Should return statistics about the exam performance
 
 function processExamScores(scoresArray) {
-    // TODO: Implement grade processing with statistics
-    // Your code here
+    let totalSum = 0;
+    let highest = scoresArray[0];
+    let lowest = scoresArray[0];
+    let passingExams = 0;
+
+    scoresArray.forEach(function(score) {
+        totalSum += score;
+
+        if (score > highest) {
+            highest = score;
+        }
+
+        if (score < lowest) {
+            lowest = score;
+        }
+
+        if (score >= 70) {
+            passingExams++;
+        }
+    });
+
+    return {
+        count: scoresArray.length,
+        average: totalSum / scoresArray.length,
+        highest: highest,
+        lowest: lowest,
+        passRate: (passingExams / scoresArray.length) * 100
+    };
 }
 
 // Test
@@ -394,8 +579,37 @@ function processExamScores(scoresArray) {
 // - classStatus: "Excellent" (avg >= 3.5), "Good" (avg >= 3.0), "Needs Improvement" (avg < 3.0)
 
 function analyzeClass(classData) {
-    // TODO: Implement comprehensive class analysis
-    // Your code here
+    let totalGPA = 0;
+    let highPerformers = 0;
+    const needsSupport = [];
+
+    for (let i = 0; i < classData.length; i++) {
+        const student = classData[i];
+        totalGPA += student.gpa;
+
+        if (student.gpa >= 3.7) {
+            highPerformers++;
+        }
+
+        if (student.gpa < 2.5) {
+            needsSupport.push(student.name);
+        }
+    }
+
+    const classAverageGPA = totalGPA / classData.length;
+    const classStatus = classAverageGPA >= 3.5
+        ? "Excellent"
+        : classAverageGPA >= 3.0
+            ? "Good"
+            : "Needs Improvement";
+
+    return {
+        totalStudents: classData.length,
+        classAverageGPA: classAverageGPA,
+        highPerformers: highPerformers,
+        needsSupport: needsSupport,
+        classStatus: classStatus
+    };
 }
 
 // Test with sample class
