@@ -1,0 +1,474 @@
+This is todays HTML Class. 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechZone Store</title>
+
+    <style>
+        /* =========================
+           BASIC PAGE STYLES
+        ========================== */
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f4f4f4;
+            color: #222;
+        }
+
+        header,
+        section {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        section {
+            margin-bottom: 25px;
+        }
+
+        .product-card {
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .product-button,
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            margin: 5px 0 15px;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        #output,
+        #profile-output,
+        #class-info,
+        #username-feedback {
+            margin-top: 15px;
+            padding: 15px;
+        }
+
+
+        /* =========================
+           STYLE DEMO
+        ========================== */
+
+        #style-demo {
+            width: 250px;
+            padding: 30px;
+            margin: 20px 0;
+            background: lightgray;
+            border: 2px solid black;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+
+        /* =========================
+           CLASS DEMO
+        ========================== */
+
+        #class-demo {
+            width: 250px;
+            padding: 30px;
+            margin: 20px 0;
+            background: #eeeeee;
+            border: 2px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        .highlight {
+            background: gold;
+        }
+
+        .active {
+            color: white;
+            background: steelblue;
+        }
+
+        .large {
+            transform: scale(1.1);
+        }
+
+        .dark-theme {
+            background: #222;
+            color: white;
+            border-color: white;
+        }
+
+        .theme-light {
+            background: white;
+            color: black;
+        }
+
+        .theme-dark {
+            background: #222;
+            color: white;
+        }
+
+        .theme-blue {
+            background: lightblue;
+            color: darkblue;
+        }
+
+        .theme-green {
+            background: lightgreen;
+            color: darkgreen;
+        }
+
+
+        /* =========================
+           PROFILE CARD
+        ========================== */
+
+        #profile-card {
+            padding: 25px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        #profile-card.dark-theme {
+            background: #222;
+            color: white;
+            border-color: #555;
+        }
+
+        #profile-name,
+        #profile-bio {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         STORE HEADER
+    ========================== -->
+
+    <header id="page-header">
+
+        <h1 id="page-title">TechZone Store</h1>
+
+        <p id="store-description">
+            Welcome to TechZone, your one-stop shop for quality gadgets and accessories.
+        </p>
+
+    </header>
+
+
+    <main>
+
+        <!-- =========================
+             PRODUCTS SECTION
+        ========================== -->
+
+        <section id="products-section">
+
+            <h2 id="products-heading">Our Products</h2>
+
+            <p id="product-count">
+                Check out our available products below.
+            </p>
+
+            <div id="products-container" class="container">
+
+                <!-- Product 1 -->
+                <div class="product-card">
+
+                    <h3 class="product-name">Laptop</h3>
+
+                    <p class="product-description">
+                        A powerful laptop for work, school, and everyday use.
+                    </p>
+
+                    <p class="price">$999</p>
+
+                    <button class="product-button">
+                        Buy Now
+                    </button>
+
+                </div>
+
+
+                <!-- Product 2 -->
+                <div class="product-card">
+
+                    <h3 class="product-name">Smartphone</h3>
+
+                    <p class="product-description">
+                        A modern smartphone with a beautiful display and great camera.
+                    </p>
+
+                    <p class="price">$599</p>
+
+                    <button class="product-button">
+                        Buy Now
+                    </button>
+
+                </div>
+
+
+                <!-- Product 3 -->
+                <div class="product-card">
+
+                    <h3 class="product-name">Headphones</h3>
+
+                    <p class="product-description">
+                        Wireless headphones with clear sound and long battery life.
+                    </p>
+
+                    <p class="price">$199</p>
+
+                    <button class="product-button">
+                        Buy Now
+                    </button>
+
+                </div>
+
+
+                <!-- Product 4 -->
+                <div class="product-card">
+
+                    <h3 class="product-name">Smart Watch</h3>
+
+                    <p class="product-description">
+                        A smart watch that helps you track your fitness and notifications.
+                    </p>
+
+                    <p class="price">$249</p>
+
+                    <button class="product-button">
+                        Buy Now
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             STORE INFORMATION
+        ========================== -->
+
+        <section id="store-info-section">
+
+            <h2>Store Information</h2>
+
+            <p id="store-info">
+                We offer quality technology products at affordable prices.
+            </p>
+
+            <button id="store-info-button">
+                Show Store Info
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             STYLE MANIPULATION
+        ========================== -->
+
+        <section id="style-section">
+
+            <h2>Product Display Controls</h2>
+
+            <p>
+                Use the buttons below to control the appearance of this box.
+            </p>
+
+            <div id="style-demo">
+                Style Demo Box
+            </div>
+
+            <div class="style-controls">
+
+                <button id="style-btn-1">
+                    Make Red
+                </button>
+
+                <button id="style-btn-2">
+                    Make Bigger
+                </button>
+
+                <button id="style-btn-3">
+                    Toggle Visibility
+                </button>
+
+                <button id="reset-style">
+                    Reset Style
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CLASS MANIPULATION
+        ========================== -->
+
+        <section id="class-section">
+
+            <h2>Product Status Controls</h2>
+
+            <p>
+                Use JavaScript to add, remove, toggle, and check CSS classes.
+            </p>
+
+            <div id="class-demo" class="box">
+                Product Status Box
+            </div>
+
+            <div class="controls">
+
+                <button id="add-class">
+                    Add Highlight
+                </button>
+
+                <button id="remove-class">
+                    Remove Highlight
+                </button>
+
+                <button id="toggle-class">
+                    Toggle Active
+                </button>
+
+                <button id="check-class">
+                    Check Classes
+                </button>
+
+            </div>
+
+            <div id="class-info">
+                Class information will appear here.
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CUSTOMER PROFILE
+        ========================== -->
+
+        <section id="profile-section">
+
+            <h2>Customer Profile</h2>
+
+            <div id="profile-card">
+
+                <h3 id="profile-name">
+                    New TechZone Customer
+                </h3>
+
+                <p id="profile-bio">
+                    This customer has not added a bio yet.
+                </p>
+
+                <button id="toggle-theme">
+                    Toggle Dark Theme
+                </button>
+
+            </div>
+
+
+            <!-- Profile Update Form -->
+
+            <div id="profile-form">
+
+                <h3>Update Profile</h3>
+
+                <label for="name-input">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name-input"
+                    placeholder="Enter your name"
+                >
+
+
+                <label for="bio-input">
+                    Bio
+                </label>
+
+                <textarea
+                    id="bio-input"
+                    rows="4"
+                    placeholder="Tell us about yourself"
+                ></textarea>
+
+
+                <button id="update-profile">
+                    Update Profile
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             DOM NAVIGATION
+        ========================== -->
+
+        <section id="navigation-section">
+
+            <h2 id="navigation-title">
+                DOM Navigation Practice
+            </h2>
+
+            <div id="navigation-container">
+
+                <div class="navigation-item">
+                    First Navigation Item
+                </div>
+
+                <div class="navigation-item">
+                    Second Navigation Item
+                </div>
+
+                <div class="navigation-item">
+                    Third Navigation Item
+                </div>
+
+            </div>
+
+            <p id="navigation-message">
+                Use JavaScript to investigate this element's
+                parent, children, and siblings.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script src="ass1.js"></script>
+
+</body>
+</html>
