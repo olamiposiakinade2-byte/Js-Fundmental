@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Classwork</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        #box {
+            width: 250px;
+            padding: 30px;
+            margin: 20px 0;
+            background-color: lightgray;
+            border: 2px solid black;
+            text-align: center;
+        }
+
+        .highlight {
+            background-color: gold;
+        }
+
+        .active {
+            color: white;
+            background-color: steelblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 id="page-title">DOM Classwork</h1>
+
+    <div id="container">
+
+        <div id="box" class="box">
+            I am the box
+        </div>
+
+        <p id="message">
+            Use JavaScript to interact with the box.
+        </p>
+
+        <button id="red-btn">
+            Make Red
+        </button>
+
+        <button id="highlight-btn">
+            Highlight
+        </button>
+
+        <button id="remove-btn">
+            Remove Highlight
+        </button>
+
+        <button id="toggle-btn">
+            Toggle Active
+        </button>
+
+        <button id="bigger-btn">
+            Make Bigger
+        </button>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script src="dom-classwork.js"></script>
+
+</body>
+</html>
