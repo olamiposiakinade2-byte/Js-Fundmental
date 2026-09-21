@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Classwork</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        #box {
+            width: 250px;
+            padding: 30px;
+            margin: 20px 0;
+            background-color: lightgray;
+            border: 2px solid black;
+            text-align: center;
+        }
+
+        .highlight {
+            background-color: gold;
+        }
+
+        .active {
+            color: white;
+            background-color: steelblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 id="page-title">DOM Classwork</h1>
+
+    <div id="container">
+
+        <div id="box" class="box">
+            I am the box
+        </div>
+
+        <p id="message">
+            Use JavaScript to interact with the box.
+        </p>
+
+        <button id="red-btn">
+            Make Red
+        </button>
+
+        <button id="highlight-btn">
+            Highlight
+        </button>
+
+        <button id="remove-btn">
+            Remove Highlight
+        </button>
+
+        <button id="toggle-btn">
+            Toggle Active
+        </button>
+
+        <button id="bigger-btn">
+            Make Bigger
+        </button>
+
+    </div>
+
+    <script src="/dom-classwork.js"></script>
+
+</body>
+</html>
+
+<!-- Tasks
+
+Task 1 - Inspect the Box
+Select the element with the ID box.
+Use the following properties and print their values in the console:
+tagName
+id
+className
+classList
+
+Task 2 - Check Its Parent
+Using the box element, find:
+Its parentElement
+Its parentNode
+Print both in the console.
+
+Task 3 - Check Its Siblings
+Use the DOM navigation properties to find:
+The element immediately before the box
+The element immediately after the box
+Print the results in the console.
+
+Task 4 - Check the Container's Children
+Select the container.
+Find:
+All its children
+Its first child element
+Its last child element
+Also use length to find out how many child elements it has.
+
+Task 5 - Change the Box Style
+Select the red-btn.
+When the button is clicked, change the box using its style property.
+Change:
+Background color
+Text color
+Border
+
+Task 6 - Add a Class
+Select the highlight-btn.
+When it is clicked, add the highlight class to the box using classList.add.
+Observe what happens to the box.
+
+Task 7 - Remove a Class
+Select the remove-btn.
+When it is clicked, remove the highlight class using classList.remove.
+Observe what happens.
+
+Task 8 - Toggle a Class
+Select the toggle-btn.
+When it is clicked, use classList.toggle to add or remove the active class.
+Click the button several times and observe what happens.
+
+Task 9 - Check the Class
+Use classList.contains to check whether the box currently has the active class.
+Print the result to the console.
+
+Think About It
+Answer these questions in your notebook:
+1. What is the difference between parentElement and parentNode?
+2. What is the difference between children and childNodes?
+3. What does classList.add do?
+4. What does classList.remove do?
+5. What does classList.toggle do?
+6. What does classList.contains return?
+
+Challenge
+Add one more button called Make Bigger
+When clicked, use JavaScript to make the box larger by changing its:
+fontSize
+
+padding
+
+width -->
