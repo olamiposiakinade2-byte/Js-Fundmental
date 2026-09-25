@@ -35,74 +35,83 @@ const foods = [
 
     {
         id: 1,
-        name: "Jollof Rice & Chicken",
-        category: "Rice",
-        price: 3500,
-        description: "Smoky Nigerian jollof rice served with grilled chicken.",
-        image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80"
+        name: "Paracetamol 500mg",
+        category: "Pain Relief",
+        price: 1,
+        description: "Everyday pain and fever relief. Follow the label directions.",
+        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80"
     },
 
     {
         id: 2,
-        name: "Fried Rice",
-        category: "Rice",
-        price: 3200,
-        description: "Fried rice with vegetables and chicken.",
-        image: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=900&q=80"
+        name: "Vitamin C Tablets",
+        category: "Vitamins",
+        price: 2,
+        description: "Daily vitamin C supplement for immune support.",
+        image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80"
     },
 
     {
         id: 3,
-        name: "Chicken Burger",
-        category: "Fast Food",
-        price: 2800,
-        description: "Juicy chicken burger with lettuce and creamy sauce.",
-        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80"
+        name: "Hand Sanitizer",
+        category: "Personal Care",
+        price: 3,
+        description: "Quick-drying hand sanitizer for on-the-go protection.",
+        image: "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?auto=format&fit=crop&w=900&q=80"
     },
 
     {
         id: 4,
-        name: "Pepperoni Pizza",
-        category: "Fast Food",
-        price: 5500,
-        description: "Hot cheese pizza topped with pepperoni.",
-        image: "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=900&q=80"
+        name: "Digital Thermometer",
+        category: "Devices",
+        price: 4,
+        description: "Fast, easy-to-read digital temperature checks.",
+        image: "https://images.unsplash.com/photo-1584634731339-252c581abfc5?auto=format&fit=crop&w=900&q=80"
     },
 
     {
         id: 5,
-        name: "Shawarma",
-        category: "Fast Food",
-        price: 2500,
-        description: "Chicken shawarma filled with vegetables and sauce.",
-        image: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=900&q=80"
+        name: "First Aid Kit",
+        category: "First Aid",
+        price: 5,
+        description: "Compact kit for basic cuts, scrapes, and emergencies.",
+        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80"
     },
 
     {
         id: 6,
-        name: "Fruit Smoothie",
-        category: "Drinks",
-        price: 1800,
-        description: "Cold mixed-fruit smoothie.",
-        image: "https://images.unsplash.com/photo-1502741224143-90386d7f8c82?auto=format&fit=crop&w=900&q=80"
+        name: "Cough Syrup",
+        category: "Cold & Flu",
+        price: 6,
+        description: "Soothing cough relief. Read the label before use.",
+        image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=900&q=80"
     },
 
     {
         id: 7,
-        name: "Iced Coffee",
-        category: "Drinks",
-        price: 1500,
-        description: "Cold coffee perfect for long coding sessions.",
-        image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=900&q=80"
+        name: "Face Masks",
+        category: "Protective Care",
+        price: 7,
+        description: "Comfortable disposable masks for everyday protection.",
+        image: "https://images.unsplash.com/photo-1584634731339-252c581abfc5?auto=format&fit=crop&w=900&q=80"
     },
 
     {
         id: 8,
-        name: "Chicken & Chips",
-        category: "Fast Food",
-        price: 3000,
-        description: "Crispy chips served with spicy chicken.",
-        image: "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=900&q=80"
+        name: "Antiseptic Cream",
+        category: "First Aid",
+        price: 8,
+        description: "Topical antiseptic care for minor skin injuries.",
+        image: "https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=900&q=80"
+    },
+
+    {
+        id: 9,
+        name: "Oral Rehydration Salts",
+        category: "Wellness",
+        price: 9,
+        description: "Electrolyte sachets for hydration support.",
+        image: "https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=900&q=80"
     }
 
 ];
@@ -263,7 +272,15 @@ async function sendOrderToServer(order) {
         body: JSON.stringify(order)
     });
 
-    const data = await response.json();
+    const contentType =
+        response.headers.get("content-type") || "";
+
+    const data = contentType.includes("application/json")
+        ? await response.json()
+        : {
+            error:
+                "Online payment needs the Reanxis payment server."
+        };
 
     if (!response.ok) {
 
@@ -1121,12 +1138,8 @@ async function loadFoods() {
 
     } catch (error) {
 
-        foodGrid.innerHTML = `
-            <div class="empty-state">
-                <h2>Server Error</h2>
-                <p>${error.message}</p>
-            </div>
-        `;
+        renderFoods(foods);
+        showToast("Catalog loaded in offline mode");
 
     } finally {
 
