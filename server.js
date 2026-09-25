@@ -10,6 +10,7 @@ require('dotenv').config();
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
+const frontendOrigin = process.env.FRONTEND_ORIGIN;
 const rootDir = __dirname;
 const databasePath = path.resolve(rootDir, process.env.DATABASE_PATH || './data/campusbite.sqlite');
 const now = () => new Date().toISOString();
@@ -90,6 +91,17 @@ const statements = {
         p.provider, p.reference, p.status, o.created_at, p.verified_at
         FROM payments p JOIN orders o ON o.id = p.order_id ORDER BY o.created_at DESC`)
 };
+
+app.use((req, res, next) => {
+    if (frontendOrigin && req.headers.origin === frontendOrigin) {
+        res.setHeader('Access-Control-Allow-Origin', frontendOrigin);
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-token');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    }
+    if (req.method === 'OPTIONS') return res.sendStatus(204);
+    next();
+});
 
 function log(event, details = {}) {
     console.log(JSON.stringify({ timestamp: now(), event, ...details }));
@@ -288,7 +300,12 @@ app.post('/api/orders', async (req, res, next) => {
             statements.paymentInsert.run(orderId, customerId, email, total, 'NGN', 'paystack', reference, createdAt);
         });
         createRecords();
-        res.cookie('customer_session', sessionToken, { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', maxAge: 1000 * 60 * 60 * 24 * 30 });
+        res.cookie('customer_session', sessionToken, {
+            httpOnly: true,
+            sameSite: frontendOrigin ? 'none' : 'lax',
+            secure: process.env.NODE_ENV === 'production' || Boolean(frontendOrigin),
+            maxAge: 1000 * 60 * 60 * 24 * 30
+        });
         log('payment_initialization_started', { orderId, reference, amountKobo: total });
         try {
             const transaction = await paystackRequest('/transaction/initialize', {
@@ -302,7 +319,7 @@ app.post('/api/orders', async (req, res, next) => {
                         orderId,
                         paymentMethod: String(req.body?.paymentMethod || 'provider_checkout')
                     },
-                    callback_url: `${process.env.PUBLIC_BASE_URL || `http://localhost:${port}`}/`
+                    callback_url: `${frontendOrigin || process.env.PUBLIC_BASE_URL || `http://localhost:${port}`}/`
                 })
             });
             return res.status(201).json({ orderId, reference, authorizationUrl: transaction.authorization_url, status: 'PENDING' });

@@ -16,6 +16,17 @@
 */
 
 
+const API_BASE_URL =
+    window.REANXIS_API_BASE_URL || "";
+
+
+function apiUrl(path) {
+
+    return `${API_BASE_URL}${path}`;
+
+}
+
+
 // ============================================================
 // 🟢 LEVEL 1 — DATA
 // ============================================================
@@ -263,7 +274,7 @@ function formatMoney(amount) {
 
 async function sendOrderToServer(order) {
 
-    const response = await fetch("/api/orders", {
+    const response = await fetch(apiUrl("/api/orders"), {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -1096,7 +1107,7 @@ async function loadFoods() {
         loading.classList.remove("hidden");
         foodGrid.classList.add("hidden");
 
-        const response = await fetch("/api/products");
+        const response = await fetch(apiUrl("/api/products"));
         const data = await response.json();
 
         if (!response.ok) {
@@ -1403,7 +1414,7 @@ async function verifyPaymentFromCallback() {
         showToast("Confirming payment with the server...");
 
 
-        const response = await fetch("/api/payments/verify", {
+        const response = await fetch(apiUrl("/api/payments/verify"), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

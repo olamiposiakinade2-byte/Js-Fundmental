@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: reanxis-pharma-api
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PAYMENT_PROVIDER
+        value: paystack
+      - key: PORT
+        value: 10000
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: FRONTEND_ORIGIN
+        value: https://olamiposiakinade2-byte.github.io
+      - key: DATABASE_PATH
+        value: /opt/render/project/src/data/campusbite.sqlite
+      - key: PAYMENT_SECRET_KEY
+        sync: false
+      - key: PAYMENT_WEBHOOK_SECRET
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: COOKIE_SECRET
+        sync: false
+    disk:
+      name: reanxis-database
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
