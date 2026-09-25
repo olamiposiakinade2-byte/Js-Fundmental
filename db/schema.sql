@@ -3,6 +3,7 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE IF NOT EXISTS customers (
     id TEXT PRIMARY KEY,
     email TEXT NOT NULL UNIQUE,
+    password_hash TEXT,
     session_token_hash TEXT NOT NULL UNIQUE,
     created_at TEXT NOT NULL
 );

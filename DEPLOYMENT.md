@@ -17,7 +17,7 @@ GitHub Pages hosts the storefront only. The Express API must run on a public HTT
 5. After Render creates a URL such as `https://reanxis-pharma-api.onrender.com`, set:
    - `PUBLIC_BASE_URL=https://reanxis-pharma-api.onrender.com`
    - `FRONTEND_ORIGIN=https://olamiposiakinade2-byte.github.io`
-6. In `index.html`, replace the empty API setting with the Render URL:
+6. In both `index.html` and `login.html`, replace the empty API setting with the Render URL:
 
 ```html
 <script>

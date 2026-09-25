@@ -28,6 +28,11 @@ const db = new DatabaseSync(databasePath);
 db.exec('PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;');
 db.exec(fs.readFileSync(path.join(rootDir, 'db', 'schema.sql'), 'utf8'));
 
+const customerColumns = db.prepare('PRAGMA table_info(customers)').all();
+if (!customerColumns.some(column => column.name === 'password_hash')) {
+    db.exec('ALTER TABLE customers ADD COLUMN password_hash TEXT');
+}
+
 function transaction(callback) {
     db.exec('BEGIN IMMEDIATE');
     try {
@@ -67,11 +72,13 @@ const statements = {
     productById: db.prepare('SELECT id, name, price_kobo FROM products WHERE id = ? AND active = 1'),
     customerBySession: db.prepare('SELECT id, email FROM customers WHERE session_token_hash = ?'),
     customerByEmail: db.prepare('SELECT id, email FROM customers WHERE email = ?'),
+    customerByEmailAuth: db.prepare('SELECT id, email, password_hash FROM customers WHERE email = ?'),
     orderById: db.prepare('SELECT * FROM orders WHERE id = ?'),
     paymentByReference: db.prepare('SELECT * FROM payments WHERE reference = ?'),
     paymentByOrder: db.prepare('SELECT * FROM payments WHERE order_id = ?'),
     customerInsert: db.prepare('INSERT INTO customers (id, email, session_token_hash, created_at) VALUES (?, ?, ?, ?)'),
     customerSessionUpdate: db.prepare('UPDATE customers SET session_token_hash = ? WHERE id = ?'),
+    customerPasswordUpdate: db.prepare('UPDATE customers SET password_hash = ?, session_token_hash = ? WHERE id = ?'),
     orderInsert: db.prepare('INSERT INTO orders (id, customer_id, customer_email, amount_kobo, currency, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)'),
     itemInsert: db.prepare('INSERT INTO order_items (order_id, product_id, quantity, unit_amount_kobo) VALUES (?, ?, ?, ?)'),
     paymentInsert: db.prepare(`INSERT INTO payments
@@ -117,6 +124,19 @@ function hashToken(token) {
     return crypto.createHash('sha256').update(token).digest('hex');
 }
 
+function hashPassword(password) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+    return `${salt}:${hash}`;
+}
+
+function verifyPassword(password, storedHash) {
+    if (!storedHash || !storedHash.includes(':')) return false;
+    const [salt, expectedHash] = storedHash.split(':');
+    const actualHash = crypto.scryptSync(password, salt, 64).toString('hex');
+    return safeEqual(actualHash, expectedHash);
+}
+
 function createId(prefix) {
     return `${prefix}_${crypto.randomUUID()}`;
 }
@@ -137,6 +157,15 @@ function getCustomer(req, res) {
     if (customer) return customer;
     res.clearCookie('customer_session');
     return null;
+}
+
+function setCustomerCookie(res, sessionToken) {
+    res.cookie('customer_session', sessionToken, {
+        httpOnly: true,
+        sameSite: frontendOrigin ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production' || Boolean(frontendOrigin),
+        maxAge: 1000 * 60 * 60 * 24 * 30
+    });
 }
 
 function normalizeItems(items) {
@@ -268,6 +297,56 @@ app.use(express.json({
 
 app.get('/api/health', (req, res) => res.json({ ok: true, environment: process.env.NODE_ENV || 'development' }));
 app.get('/api/products', (req, res) => res.json({ products: statements.productList.all() }));
+
+app.post('/api/auth/register', (req, res, next) => {
+    try {
+        const email = String(req.body?.email || '').trim().toLowerCase();
+        const password = String(req.body?.password || '');
+        if (!/^\S+@\S+\.\S+$/.test(email) || password.length < 8) {
+            return res.status(400).json({ error: 'Use a valid email and a password with at least 8 characters' });
+        }
+        const existing = statements.customerByEmailAuth.get(email);
+        if (existing?.password_hash) return res.status(409).json({ error: 'An account already exists for this email' });
+        const customerId = existing?.id || createId('cus');
+        const sessionToken = crypto.randomBytes(32).toString('hex');
+        const saveAccount = () => transaction(() => {
+            if (!existing) statements.customerInsert.run(customerId, email, hashToken(sessionToken), now());
+            statements.customerPasswordUpdate.run(hashPassword(password), hashToken(sessionToken), customerId);
+        });
+        saveAccount();
+        setCustomerCookie(res, sessionToken);
+        return res.status(201).json({ customer: { id: customerId, email } });
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.post('/api/auth/login', (req, res, next) => {
+    try {
+        const email = String(req.body?.email || '').trim().toLowerCase();
+        const password = String(req.body?.password || '');
+        const customer = statements.customerByEmailAuth.get(email);
+        if (!customer || !verifyPassword(password, customer.password_hash)) {
+            return res.status(401).json({ error: 'Incorrect email or password' });
+        }
+        const sessionToken = crypto.randomBytes(32).toString('hex');
+        statements.customerSessionUpdate.run(hashToken(sessionToken), customer.id);
+        setCustomerCookie(res, sessionToken);
+        return res.json({ customer: { id: customer.id, email: customer.email } });
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.get('/api/auth/me', (req, res) => {
+    const customer = getCustomer(req, res);
+    return res.json({ customer });
+});
+
+app.post('/api/auth/logout', (req, res) => {
+    res.clearCookie('customer_session');
+    return res.json({ ok: true });
+});
 
 app.post('/api/orders', async (req, res, next) => {
     try {
