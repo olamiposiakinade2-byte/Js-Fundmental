@@ -465,6 +465,15 @@
             background: white;
         }
 
+        .sort-select {
+            min-width: 180px;
+            padding: 14px 16px;
+            border: 1px solid #dce9e3;
+            border-radius: 12px;
+            background: white;
+            color: #17332d;
+        }
+
         .checkout-btn {
             width: 100%;
             padding: 15px;
@@ -635,6 +644,12 @@
                 Reanxis <span>Pharmacy</span>
             </div>
 
+            <div class="quick-links">
+                <a href="#shop">Shop</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+
             <button
                 class="cart-button"
                 id="openCartBtn"
@@ -704,7 +719,7 @@
 
     <main>
 
-        <section class="container">
+        <section class="container" id="shop">
 
             <div class="section-heading">
                 <h2>Shop everyday care</h2>
@@ -728,6 +743,17 @@
                     >
 
                 </div>
+
+                <select
+                    class="sort-select"
+                    id="sortSelect"
+                    aria-label="Sort products"
+                >
+                    <option value="featured">Featured</option>
+                    <option value="price-low">Price: low to high</option>
+                    <option value="price-high">Price: high to low</option>
+                    <option value="name">Name: A to Z</option>
+                </select>
 
 
                 <div class="filters">
@@ -843,11 +869,11 @@
     </section>
 
 
-    <section class="company-section">
+    <section class="company-section" id="about">
 
         <div class="container company-grid">
 
-            <div>
+            <div id="contact">
                 <h2>RENAXIS PHARMA LIMITED</h2>
                 <p>
                     Pharmaceutical manufacture and services for everyday health,

@@ -130,6 +130,18 @@ selectedCategory = currently selected filter.
 
 let cart = [];
 
+try {
+
+    cart = JSON.parse(
+        localStorage.getItem("reanxis_cart") || "[]"
+    );
+
+} catch {
+
+    cart = [];
+
+}
+
 let selectedCategory = "all";
 
 
@@ -203,6 +215,10 @@ const paymentMethod =
 
 const customerEmail =
     document.querySelector("#customerEmail");
+
+
+const sortSelect =
+    document.querySelector("#sortSelect");
 
 
 const toast =
@@ -524,6 +540,12 @@ console.log(cart);
 function updateCart() {
 
 
+    localStorage.setItem(
+        "reanxis_cart",
+        JSON.stringify(cart)
+    );
+
+
     cartItems.innerHTML = "";
 
 
@@ -815,24 +837,40 @@ function updateCartTotal() {
 function searchFoods() {
 
 
+    applyCatalogFilters();
+
+}
+
+
+function applyCatalogFilters() {
+
     const searchText =
-        searchInput.value.toLowerCase();
+        searchInput.value.trim().toLowerCase();
 
+    let results = foods.filter(function(food) {
 
+        const matchesCategory =
+            selectedCategory === "all" ||
+            food.category === selectedCategory;
 
-    const results = foods.filter(
-        function(food) {
+        const searchableText =
+            `${food.name} ${food.description}`.toLowerCase();
 
+        return matchesCategory && searchableText.includes(searchText);
 
-            const foodName =
-                food.name.toLowerCase();
+    });
 
+    if (sortSelect.value === "price-low") {
+        results.sort((first, second) => first.price - second.price);
+    }
 
-            return foodName.includes(searchText);
+    if (sortSelect.value === "price-high") {
+        results.sort((first, second) => second.price - first.price);
+    }
 
-        }
-    );
-
+    if (sortSelect.value === "name") {
+        results.sort((first, second) => first.name.localeCompare(second.name));
+    }
 
     renderFoods(results);
 
@@ -890,37 +928,18 @@ filterButtons.forEach(
 
 
 
-                let filteredFoods;
-
-
-                if (selectedCategory === "all") {
-
-                    filteredFoods = foods;
-
-                } else {
-
-
-                    filteredFoods =
-                        foods.filter(
-                            function(food) {
-
-                                return (
-                                    food.category ===
-                                    selectedCategory
-                                );
-
-                            }
-                        );
-
-                }
-
-
-                renderFoods(filteredFoods);
+                applyCatalogFilters();
 
             }
         );
 
     }
+);
+
+
+sortSelect.addEventListener(
+    "change",
+    applyCatalogFilters
 );
 
 
@@ -1082,6 +1101,22 @@ async function loadFoods() {
 
         foods.length = 0;
         foods.push(...serverFoods);
+
+        cart = cart
+            .map(function(item) {
+
+                const currentProduct = serverFoods.find(
+                    product => product.id === item.id
+                );
+
+                return currentProduct
+                    ? { ...currentProduct, quantity: item.quantity }
+                    : null;
+
+            })
+            .filter(Boolean);
+
+        updateCart();
         renderFoods(serverFoods);
 
     } catch (error) {
