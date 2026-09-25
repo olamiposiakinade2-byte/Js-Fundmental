@@ -197,6 +197,14 @@ const checkoutBtn =
     document.querySelector("#checkoutBtn");
 
 
+const paymentMethod =
+    document.querySelector("#paymentMethod");
+
+
+const customerEmail =
+    document.querySelector("#customerEmail");
+
+
 const toast =
     document.querySelector("#toast");
 
@@ -213,40 +221,12 @@ const orderNumber =
     document.querySelector("#orderNumber");
 
 
+const paymentStatus =
+    document.querySelector("#paymentStatus");
+
+
 const progressBar =
     document.querySelector("#progressBar");
-
-
-
-// ============================================================
-// 🟢 LEVEL 4 — SIMPLE FUNCTION
-// ============================================================
-
-/*
-🧠 FUNCTION
-
-A function is a reusable block of code.
-
-Instead of repeating:
-
-console.log("Hello")
-
-again and again...
-
-we create:
-
-function sayHello() {
-    console.log("Hello");
-}
-
-Then:
-
-sayHello();
-
-🎯 QUESTION FOR STUDENTS:
-
-Why would repeating code everywhere become a problem?
-*/
 
 
 function formatMoney(amount) {
@@ -256,16 +236,31 @@ function formatMoney(amount) {
 }
 
 
+async function sendOrderToServer(order) {
 
-// ============================================================
-// 🟢 LEVEL 5 — RENDER FOOD
-// ============================================================
+    const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "same-origin",
+        body: JSON.stringify(order)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+
+        throw new Error(data.error || "Could not start payment.");
+
+    }
+
+    return data;
+
+}
+
 
 /*
-🧠 renderFoods()
-
-This function receives an array.
-
 Example:
 
 renderFoods(foods);
@@ -292,7 +287,7 @@ function renderFoods(foodArray) {
 
             <div class="empty-state">
 
-                <h2>😕 No food found</h2>
+                <h2>😕 No pharmacy products found</h2>
 
                 <p>
                     Try another search.
@@ -716,7 +711,7 @@ function removeFromCart(foodId) {
 
     Example:
 
-    Remove food ID 3.
+    Remove f  ood ID 3.
 
     Keep everything whose ID is NOT 3.
     */
@@ -1054,187 +1049,53 @@ Which function is the callback?
 
 
 // ============================================================
-// 🟡 LEVEL 16 — WHY ASYNC EXISTS
-// ============================================================
-
-/*
-Imagine loading food from a REAL backend.
-
-Backend might take:
-
-500 milliseconds
-2 seconds
-5 seconds
-
-We DO NOT want our entire website to freeze.
-
-So we use asynchronous JavaScript.
-*/
-
-
-
-// ============================================================
-// 🟡 LEVEL 17 — CREATE A FAKE API WITH PROMISE
-// ============================================================
-
-
-function fetchFoodsFromServer() {
-
-
-    /*
-    🧠 Promise means:
-
-    "I don't have the answer right now,
-    but I PROMISE to give you an answer later."
-    */
-
-
-    return new Promise(
-        function(resolve, reject) {
-
-
-            console.log(
-                "📡 Contacting CampusBite server..."
-            );
-
-
-
-            setTimeout(
-                function() {
-
-
-                    const serverIsWorking = true;
-
-
-
-                    if (serverIsWorking) {
-
-
-                        // ✅ SUCCESS
-
-                        resolve(foods);
-
-
-                    } else {
-
-
-                        // ❌ FAILURE
-
-                        reject(
-                            "Server could not load foods."
-                        );
-
-                    }
-
-
-                },
-
-                2000
-            );
-
-        }
-    );
-
-}
-
-
-
-// ============================================================
-// 🟡 LEVEL 18 — ASYNC / AWAIT
+// 🟡 LEVEL 16 — LOAD PRODUCTS FROM THE BACKEND
 // ============================================================
 
 
 async function loadFoods() {
 
-
-    /*
-    The word async tells JavaScript:
-
-    "This function may contain asynchronous work."
-    */
-
-
     try {
 
-
         loading.classList.remove("hidden");
-
-
         foodGrid.classList.add("hidden");
 
+        const response = await fetch("/api/products");
+        const data = await response.json();
 
+        if (!response.ok) {
+            throw new Error(data.error || "Could not load meals.");
+        }
 
-        /*
-        🧠 await means:
+        const serverFoods = data.products.map(function(product) {
 
-        WAIT for the Promise to finish
-        before continuing THIS function.
+            return {
+                id: product.id,
+                name: product.name,
+                category: product.category,
+                price: product.price_kobo / 100,
+                description: product.description,
+                image: product.image
+            };
 
-        Other parts of the browser can
-        still continue working.
-        */
+        });
 
-
-        const serverFoods =
-            await fetchFoodsFromServer();
-
-
-
-        console.log(
-            "✅ Food arrived from server:"
-        );
-
-
-        console.log(serverFoods);
-
-
-
+        foods.length = 0;
+        foods.push(...serverFoods);
         renderFoods(serverFoods);
-
 
     } catch (error) {
 
-
-        console.log(
-            "❌ Error:",
-            error
-        );
-
-
         foodGrid.innerHTML = `
-
             <div class="empty-state">
-
-                <h2>
-                    Server Error 😭
-                </h2>
-
-                <p>
-                    ${error}
-                </p>
-
+                <h2>Server Error</h2>
+                <p>${error.message}</p>
             </div>
-
         `;
-
 
     } finally {
 
-
-        /*
-        finally runs whether:
-
-        ✅ successful
-
-        OR
-
-        ❌ failed
-        */
-
-
         loading.classList.add("hidden");
-
-
         foodGrid.classList.remove("hidden");
 
     }
@@ -1243,79 +1104,6 @@ async function loadFoods() {
 
 
 
-// ============================================================
-// 🟡 LEVEL 19 — CREATE ORDER PROMISE
-// ============================================================
-
-
-function sendOrderToServer(order) {
-
-
-    return new Promise(
-        function(resolve, reject) {
-
-
-            console.log(
-                "📦 Sending order..."
-            );
-
-
-            console.log(order);
-
-
-
-            setTimeout(
-                function() {
-
-
-                    const successful = true;
-
-
-
-                    if (successful) {
-
-
-                        resolve({
-
-                            orderId:
-                                Math.floor(
-                                    Math.random() * 90000
-                                ) + 10000,
-
-                            message:
-                                "Order created successfully",
-
-                            status:
-                                "Preparing"
-
-                        });
-
-
-                    } else {
-
-
-                        reject(
-                            "Payment or order failed."
-                        );
-
-                    }
-
-
-                },
-
-                2000
-            );
-
-        }
-    );
-
-}
-
-
-
-// ============================================================
-// 🔴 LEVEL 20 — PLACE ORDER
-// ============================================================
 
 
 async function placeOrder() {
@@ -1336,6 +1124,33 @@ async function placeOrder() {
     }
 
 
+    if (!paymentMethod.value) {
+
+        showToast(
+            "Please choose a payment method"
+        );
+
+
+        return;
+
+    }
+
+
+    if (!customerEmail.checkValidity()) {
+
+        showToast(
+            "Please enter a valid email address"
+        );
+
+
+        customerEmail.focus();
+
+
+        return;
+
+    }
+
+
 
     /*
     Create an order object.
@@ -1348,25 +1163,20 @@ async function placeOrder() {
     const order = {
 
 
-        items: cart,
+        items: cart.map(function(item) {
+
+            return {
+                productId: item.id,
+                quantity: item.quantity
+            };
+
+        }),
 
 
-        total: cart.reduce(
-            function(total, item) {
-
-                return (
-                    total +
-                    item.price * item.quantity
-                );
-
-            },
-
-            0
-        ),
+        customerEmail: customerEmail.value.trim(),
 
 
-        createdAt:
-            new Date().toISOString()
+        paymentMethod: paymentMethod.value
 
     };
 
@@ -1376,7 +1186,7 @@ async function placeOrder() {
 
 
         checkoutBtn.textContent =
-            "Placing order...";
+            "Opening secure payment...";
 
 
         checkoutBtn.disabled = true;
@@ -1397,61 +1207,15 @@ async function placeOrder() {
 
 
 
-        closeCart();
-
-
-
-        showToast(
-            "Order placed successfully 🎉"
-        );
-
-
-
-        /*
-        Show order tracking section.
-        */
-
-
-        orderSection.classList.remove(
-            "hidden"
-        );
-
-
-        orderNumber.textContent =
-            `Order #${response.orderId}`;
-
-
-
-        /*
-        Start tracking.
-        */
-
-
-        trackOrder();
-
-
-        /*
-        Empty the cart after
-        successful order.
-        */
-
-
-        cart = [];
-
-
-        updateCart();
+        window.location.href = response.authorizationUrl;
 
 
     } catch (error) {
 
-
-        showToast(
-            `❌ ${error}`
-        );
+        showToast(`Could not start payment: ${error.message}`);
 
 
     } finally {
-
 
         checkoutBtn.textContent =
             "Place Order";
@@ -1462,7 +1226,6 @@ async function placeOrder() {
     }
 
 }
-
 
 
 checkoutBtn.addEventListener(
@@ -1573,6 +1336,70 @@ function trackOrder() {
 }
 
 
+async function verifyPaymentFromCallback() {
+
+    const reference =
+        new URLSearchParams(window.location.search).get("reference") ||
+        new URLSearchParams(window.location.search).get("trxref");
+
+
+    if (!reference) {
+
+        return;
+
+    }
+
+
+    try {
+
+        showToast("Confirming payment with the server...");
+
+
+        const response = await fetch("/api/payments/verify", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({ reference })
+        });
+
+
+        const result = await response.json();
+
+
+        if (result.status !== "SUCCESS") {
+
+            throw new Error(result.error || "Payment is not confirmed yet.");
+
+        }
+
+
+        orderSection.classList.remove("hidden");
+
+        orderNumber.textContent =
+            `Order #${result.orderId}`;
+
+        paymentStatus.textContent =
+            "Payment successful (server verified)";
+
+        orderStatus.textContent =
+            "Payment confirmed. Preparing your food.";
+
+        showToast("Payment successful 🎉");
+
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+
+    } catch (error) {
+
+        showToast(`Payment pending: ${error.message}`);
+
+    }
+
+}
+
+
 
 // ============================================================
 // 🟢 LEVEL 22 — START THE APPLICATION
@@ -1598,6 +1425,9 @@ loadFoods();
 
 
 updateCart();
+
+
+verifyPaymentFromCallback();
 
 
 

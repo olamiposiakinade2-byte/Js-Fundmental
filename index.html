@@ -2,35 +2,835 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conference ticket generator</title>
-    <link rel="stylesheet" href="style.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CampusBite Pharmacy - Health Essentials</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8f8fb;
+            color: #202020;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: min(1200px, 92%);
+            margin: auto;
+        }
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #eeeeee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-inner {
+            min-height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #6c3cff;
+        }
+
+        .cart-button {
+            border: none;
+            background: #111;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+        }
+
+        .cart-count {
+            background: #6c3cff;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-left: 5px;
+        }
+
+        /* ==============================
+           HERO
+        ============================== */
+
+        .hero {
+            padding: 70px 0;
+        }
+
+        .hero-inner {
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c3cff,
+                    #936eff
+                );
+
+            border-radius: 24px;
+            padding: 60px;
+            color: white;
+
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 70px);
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+            opacity: 0.9;
+        }
+
+        .hero-visual {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .hero-visual .emoji {
+            font-size: 100px;
+        }
+
+        /* ==============================
+           CONTROLS
+        ============================== */
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: 1px solid #ddd;
+            padding: 15px 18px;
+            border-radius: 12px;
+            outline: none;
+            background: white;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            border: 1px solid #ddd;
+            background: white;
+            padding: 11px 17px;
+            border-radius: 30px;
+        }
+
+        .filter-btn.active {
+            background: #6c3cff;
+            color: white;
+            border-color: #6c3cff;
+        }
+
+        /* ==============================
+           FOOD SECTION
+        ============================== */
+
+        .section-heading {
+            margin-bottom: 30px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .section-heading p {
+            color: #777;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding-bottom: 80px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #eeeeee;
+            transition: 0.25s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .food-image {
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .food-content {
+            padding: 20px;
+        }
+
+        .food-category {
+            display: inline-block;
+            font-size: 12px;
+            color: #6c3cff;
+            background: #f0ebff;
+            padding: 6px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .food-content h3 {
+            margin-bottom: 8px;
+        }
+
+        .food-description {
+            color: #777;
+            line-height: 1.5;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .food-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .food-price {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .add-btn {
+            border: none;
+            background: #6c3cff;
+            color: white;
+            padding: 11px 15px;
+            border-radius: 9px;
+        }
+
+        /* ==============================
+           LOADING
+        ============================== */
+
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 5px solid #eee;
+            border-top-color: #6c3cff;
+            border-radius: 50%;
+            margin: auto;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==============================
+           CART
+        ============================== */
+
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 200;
+        }
+
+        .cart-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            width: min(450px, 100%);
+            background: white;
+            z-index: 300;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .close-cart {
+            border: none;
+            background: #f2f2f2;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 65px 1fr auto;
+            gap: 15px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 65px;
+            height: 65px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .quantity-controls button {
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: red;
+        }
+
+        .cart-summary {
+            margin-top: 30px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .payment-label {
+            display: block;
+            font-weight: 700;
+            margin: 20px 0 8px;
+        }
+
+        .customer-email {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .payment-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #6c3cff;
+            color: white;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        /* ==============================
+           ORDER STATUS
+        ============================== */
+
+        .order-section {
+            padding: 80px 0;
+            background: #111;
+            color: white;
+        }
+
+        .order-card {
+            max-width: 700px;
+            margin-top: 30px;
+            background: #1d1d1d;
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        .order-status {
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .progress {
+            height: 10px;
+            background: #333;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #8c68ff;
+            transition: width 0.5s;
+        }
+
+        /* ==============================
+           TOAST
+        ============================== */
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            background: #111;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 10px;
+            z-index: 500;
+        }
+
+        /* ==============================
+           EMPTY STATE
+        ============================== */
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 70px 20px;
+            background: white;
+            border-radius: 18px;
+        }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 900px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .food-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-inner {
+                padding: 35px 25px;
+            }
+
+            .food-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <header id="logo">
-        <img src="/conference-ticket-generator-main/conference-ticket-generator-main/assets/images/logo-full.svg" alt="">
+
+    <!-- =========================================
+         NAVIGATION
+    ========================================== -->
+
+    <nav class="navbar">
+        <div class="container navbar-inner">
+
+            <div class="logo">
+                CampusBite Pharmacy +
+            </div>
+
+            <button
+                class="cart-button"
+                id="openCartBtn"
+            >
+                🛒 Cart
+                <span
+                    class="cart-count"
+                    id="cartCount"
+                >
+                    0
+                </span>
+            </button>
+
+        </div>
+    </nav>
+
+
+    <!-- =========================================
+         HERO SECTION
+    ========================================== -->
+
+    <header class="hero">
+
+        <div class="container">
+
+            <div class="hero-inner">
+
+                <div>
+                    <h1>
+                        Care made simple.
+                        <br>
+                        We got you.
+                    </h1>
+
+                    <p>
+                        Order everyday health essentials and personal care products
+                        for convenient campus delivery.
+                    </p>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="emoji">
+                        +
+                    </div>
+
+                    <h2>
+                        Health essentials delivered with care.
+                    </h2>
+                </div>
+
+            </div>
+
+        </div>
+
     </header>
 
-    <section id="hero">
-        <h1>Your Journey to Coding Conf <br> 2025 Starts Here</h1>
-        <h6>Secure your spot at next year's biggest coding conference.</h6>
-    </section>
+
+    <!-- =========================================
+         FOOD SECTION
+    ========================================== -->
 
     <main>
-        <section id="form">
-            <form action="">
-                <label for="avatar">Upload Avatar</label>
-                <input type="file" id="avatar" accept=".jpg, .jpeg, .png">
-                <p>Drag and drop or click to upload</p>
-                <p>Upload your photo (JPG or PNG, max size: 500KB).</p>
-                <label for="full-name">Full Name</label>
-                <input type="text" id="full-name" name="full-name" required>
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            </form>
-            <button>Generate My Ticket</button>
+
+        <section class="container">
+
+            <div class="section-heading">
+                <h2>Pharmacy essentials</h2>
+
+                <p>
+                    Everyday care, wellness, and first-aid supplies.
+                </p>
+            </div>
+
+
+            <!-- SEARCH + FILTER -->
+
+            <div class="controls">
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search pharmacy products..."
+                    >
+
+                </div>
+
+
+                <div class="filters">
+
+                    <button
+                        class="filter-btn active"
+                        data-category="all"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="Pain Relief"
+                    >
+                        Pain Relief
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="Vitamins"
+                    >
+                        Vitamins
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="First Aid"
+                    >
+                        First Aid
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOADING STATE -->
+
+            <div
+                class="loading"
+                id="loading"
+            >
+
+                <div class="spinner"></div>
+
+                <p style="margin-top: 15px;">
+                    Loading today's meals...
+                </p>
+
+            </div>
+
+
+            <!-- JAVASCRIPT PUTS FOOD HERE -->
+
+            <div
+                class="food-grid"
+                id="foodGrid"
+            >
+            </div>
+
         </section>
+
     </main>
- <script src="script.js"></script>
+
+
+    <!-- =========================================
+         ORDER TRACKING
+    ========================================== -->
+
+    <section
+        class="order-section hidden"
+        id="orderSection"
+    >
+
+        <div class="container">
+
+            <h2>
+                Your Order
+            </h2>
+
+            <div class="order-card">
+
+                <p id="orderNumber">
+                    Order #000
+                </p>
+
+                <p id="paymentStatus">
+                    Payment pending
+                </p>
+
+                <div
+                    class="order-status"
+                    id="orderStatus"
+                >
+                    Waiting...
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         CART OVERLAY
+    ========================================== -->
+
+    <div
+        class="cart-overlay hidden"
+        id="cartOverlay"
+    >
+    </div>
+
+
+    <!-- =========================================
+         CART PANEL
+    ========================================== -->
+
+    <aside
+        class="cart-panel hidden"
+        id="cartPanel"
+    >
+
+        <div class="cart-header">
+
+            <h2>
+                Your Cart
+            </h2>
+
+            <button
+                class="close-cart"
+                id="closeCartBtn"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div id="cartItems">
+        </div>
+
+
+        <div class="cart-summary">
+
+            <div class="summary-row">
+                <span>Total</span>
+
+                <strong id="cartTotal">
+                    ₦0
+                </strong>
+            </div>
+
+            <label
+                class="payment-label"
+                for="customerEmail"
+            >
+                Email for payment receipt
+            </label>
+
+            <input
+                class="customer-email"
+                id="customerEmail"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+            >
+
+            <label
+                class="payment-label"
+                for="paymentMethod"
+            >
+                Payment method
+            </label>
+
+            <select
+                class="payment-select"
+                id="paymentMethod"
+            >
+                <option value="">Choose a payment method</option>
+                <option value="Card">Card</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Cash on Delivery">Cash on Delivery</option>
+            </select>
+
+
+            <button
+                class="checkout-btn"
+                id="checkoutBtn"
+            >
+                Place Order
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MESSAGE / TOAST
+    ========================================== -->
+
+    <div
+        class="toast hidden"
+        id="toast"
+    >
+        Message
+    </div>
+
+
+    <script src="CampusBite.js"></script>
+
 </body>
 </html>
