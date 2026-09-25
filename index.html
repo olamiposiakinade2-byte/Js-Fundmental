@@ -541,6 +541,48 @@
             border-radius: 18px;
         }
 
+        .company-section {
+            padding: 64px 0;
+            background: #e8f2ee;
+            border-top: 1px solid #dce9e3;
+        }
+
+        .company-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr 1fr;
+            gap: 32px;
+        }
+
+        .company-section h2,
+        .company-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #173e35;
+            margin-bottom: 12px;
+        }
+
+        .company-section p,
+        .company-section li {
+            color: #55736a;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .company-section ul {
+            padding-left: 18px;
+        }
+
+        .company-meta {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px 16px;
+            margin-top: 18px;
+            font-size: 13px;
+        }
+
+        .company-meta strong {
+            color: #173e35;
+        }
+
         /* ==============================
            RESPONSIVE
         ============================== */
@@ -571,6 +613,10 @@
             .controls {
                 flex-direction: column;
                 align-items: stretch;
+            }
+
+            .company-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -729,7 +775,7 @@
                 <div class="spinner"></div>
 
                 <p style="margin-top: 15px;">
-                    Loading today's meals...
+                    Loading pharmacy essentials...
                 </p>
 
             </div>
@@ -790,6 +836,49 @@
 
                 </div>
 
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="company-section">
+
+        <div class="container company-grid">
+
+            <div>
+                <h2>RENAXIS PHARMA LIMITED</h2>
+                <p>
+                    Pharmaceutical manufacture and services for everyday health,
+                    wellness, and personal care needs.
+                </p>
+                <div class="company-meta">
+                    <strong>Registration</strong>
+                    <span>RC 1166051</span>
+                    <strong>Incorporated</strong>
+                    <span>23 January 2014, Lagos</span>
+                    <strong>Status</strong>
+                    <span>Unknown</span>
+                </div>
+            </div>
+
+            <div>
+                <h3>Registered office</h3>
+                <p>
+                    No. 3 Aremu Street, off Ali-Dada Ago Palace Way,
+                    Okota, Lagos, Lagos State, Nigeria.
+                </p>
+            </div>
+
+            <div>
+                <h3>Directors</h3>
+                <ul>
+                    <li>Adeyemo Temilade Kehinde</li>
+                    <li>Adeyemo Adebukola Taiwo</li>
+                    <li>Adeyemo Nathaniel Adebayo</li>
+                    <li>Adeyemo Oluyemi Adeola</li>
+                </ul>
             </div>
 
         </div>
