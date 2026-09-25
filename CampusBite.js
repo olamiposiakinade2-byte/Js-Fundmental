@@ -363,7 +363,7 @@ function renderFoods(foodArray) {
                             class="add-btn"
                             onclick="addToCart(${food.id})"
                         >
-                            Add +
+                            Add to bag
                         </button>
 
                     </div>
