@@ -46,15 +46,18 @@ function transaction(callback) {
 }
 
 const products = [
-    [1, 'Paracetamol 500mg', 'Pain Relief', 100, 'Everyday pain and fever relief. Follow the label directions.', 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80'],
-    [2, 'Vitamin C Tablets', 'Vitamins', 200, 'Daily vitamin C supplement for immune support.', 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80'],
-    [3, 'Hand Sanitizer', 'Personal Care', 300, 'Quick-drying hand sanitizer for on-the-go protection.', 'https://images.unsplash.com/photo-1584483766114-2cea6facdf57?auto=format&fit=crop&w=900&q=80'],
-    [4, 'Digital Thermometer', 'Devices', 400, 'Fast, easy-to-read digital temperature checks.', 'https://images.unsplash.com/photo-1584634731339-252c581abfc5?auto=format&fit=crop&w=900&q=80'],
-    [5, 'First Aid Kit', 'First Aid', 500, 'Compact kit for basic cuts, scrapes, and emergencies.', 'https://images.unsplash.com/photo-1603398938378-e54eab446dade?auto=format&fit=crop&w=900&q=80'],
-    [6, 'Cough Syrup', 'Cold & Flu', 600, 'Soothing cough relief. Read the label before use.', 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=900&q=80'],
-    [7, 'Face Masks', 'Protective Care', 700, 'Comfortable disposable masks for everyday protection.', 'https://images.unsplash.com/photo-1584634731339-252c581abfc5?auto=format&fit=crop&w=900&q=80'],
-    [8, 'Antiseptic Cream', 'First Aid', 800, 'Topical antiseptic care for minor skin injuries.', 'https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=900&q=80'],
-    [9, 'Oral Rehydration Salts', 'Wellness', 900, 'Electrolyte sachets for hydration support.', 'https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=900&q=80']
+    [1, 'Renix Furosemide BP 40mg', 'Anti-Hypertensive', 40000, 'Prescription medicine. Use only under qualified pharmacist or clinician guidance.', 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80'],
+    [2, 'Normoretic', 'Anti-Hypertensive', 45000, 'Prescription blood-pressure medicine. Confirm suitability with a healthcare professional.', 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80'],
+    [3, 'Amlong 10mg Amlodipine', 'Anti-Hypertensive', 40000, 'Prescription medicine for blood-pressure care. Do not self-medicate.', 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80'],
+    [4, 'Multichris Propranolol BP 40mg', 'Anti-Hypertensive', 120000, 'Prescription medicine. Ask a pharmacist about dosage and interactions.', 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80'],
+    [5, 'Dopatab 250mg Methyldopa', 'Anti-Hypertensive & Anti-Platelet', 130000, 'Prescription medicine. Professional review is required before use.', 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80'],
+    [6, 'Vasopirin 75mg Aspirin', 'Anti-Hypertensive & Anti-Platelet', 10000, 'Use only as directed by a clinician, especially with other blood thinners.', 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80'],
+    [7, 'Diabetmin Metformin 500mg', 'Anti-Diabetics', 70000, 'Prescription medicine for diabetes care. Follow your clinician’s instructions.', 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80'],
+    [8, 'Shalzin Azithromycin 500mg', 'Antibiotics', 185000, 'Antibiotic medicine. Prescription and professional guidance required.', 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=900&q=80'],
+    [9, 'Shaltoux Sweet', 'Vitamins & Supplements', 5000, 'Supplement product. Check the label and ask a pharmacist if unsure.', 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80'],
+    [10, 'Omeshal Omeprazole 20mg', 'Ulcer Care', 130000, 'Medicine for acid-related conditions. Use according to professional advice.', 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80'],
+    [11, 'Epiderm B/S Cream 30g', 'Topical Creams & Ointments', 100000, 'Topical skin-care product. Follow label directions and seek advice for persistent symptoms.', 'https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=900&q=80'],
+    [12, "Shal'Artem X 12", 'Anti-Malaria', 80000, 'Antimalarial medicine. Test and consult a qualified professional before treatment.', 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=900&q=80']
 ];
 const insertProduct = db.prepare(`INSERT INTO products
     (id, name, category, price_kobo, description, image) VALUES (?, ?, ?, ?, ?, ?)

@@ -46,83 +46,99 @@ const foods = [
 
     {
         id: 1,
-        name: "Paracetamol 500mg",
-        category: "Pain Relief",
-        price: 1,
-        description: "Everyday pain and fever relief. Follow the label directions.",
+        name: "Renix Furosemide BP 40mg",
+        category: "Anti-Hypertensive",
+        price: 400,
+        description: "Prescription medicine. Use only under qualified pharmacist or clinician guidance.",
         image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80"
     },
-
     {
         id: 2,
-        name: "Vitamin C Tablets",
-        category: "Vitamins",
-        price: 2,
-        description: "Daily vitamin C supplement for immune support.",
-        image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80"
+        name: "Normoretic",
+        category: "Anti-Hypertensive",
+        price: 450,
+        description: "Prescription blood-pressure medicine. Confirm suitability with a healthcare professional.",
+        image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80"
     },
-
     {
         id: 3,
-        name: "Hand Sanitizer",
-        category: "Personal Care",
-        price: 3,
-        description: "Quick-drying hand sanitizer for on-the-go protection.",
-        image: "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?auto=format&fit=crop&w=900&q=80"
+        name: "Amlong 10mg Amlodipine",
+        category: "Anti-Hypertensive",
+        price: 400,
+        description: "Prescription medicine for blood-pressure care. Do not self-medicate.",
+        image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80"
     },
-
     {
         id: 4,
-        name: "Digital Thermometer",
-        category: "Devices",
-        price: 4,
-        description: "Fast, easy-to-read digital temperature checks.",
-        image: "https://images.unsplash.com/photo-1584634731339-252c581abfc5?auto=format&fit=crop&w=900&q=80"
+        name: "Multichris Propranolol BP 40mg",
+        category: "Anti-Hypertensive",
+        price: 1200,
+        description: "Prescription medicine. Ask a pharmacist about dosage and interactions.",
+        image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80"
     },
-
     {
         id: 5,
-        name: "First Aid Kit",
-        category: "First Aid",
-        price: 5,
-        description: "Compact kit for basic cuts, scrapes, and emergencies.",
+        name: "Dopatab 250mg Methyldopa",
+        category: "Anti-Hypertensive & Anti-Platelet",
+        price: 1300,
+        description: "Prescription medicine. Professional review is required before use.",
         image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=80"
     },
-
     {
         id: 6,
-        name: "Cough Syrup",
-        category: "Cold & Flu",
-        price: 6,
-        description: "Soothing cough relief. Read the label before use.",
-        image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=900&q=80"
+        name: "Vasopirin 75mg Aspirin",
+        category: "Anti-Hypertensive & Anti-Platelet",
+        price: 100,
+        description: "Use only as directed by a clinician, especially with other blood thinners.",
+        image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80"
     },
-
     {
         id: 7,
-        name: "Face Masks",
-        category: "Protective Care",
-        price: 7,
-        description: "Comfortable disposable masks for everyday protection.",
-        image: "https://images.unsplash.com/photo-1584634731339-252c581abfc5?auto=format&fit=crop&w=900&q=80"
+        name: "Diabetmin Metformin 500mg",
+        category: "Anti-Diabetics",
+        price: 700,
+        description: "Prescription medicine for diabetes care. Follow your clinician's instructions.",
+        image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80"
     },
-
     {
         id: 8,
-        name: "Antiseptic Cream",
-        category: "First Aid",
-        price: 8,
-        description: "Topical antiseptic care for minor skin injuries.",
-        image: "https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=900&q=80"
+        name: "Shalzin Azithromycin 500mg",
+        category: "Antibiotics",
+        price: 1850,
+        description: "Antibiotic medicine. Prescription and professional guidance required.",
+        image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=900&q=80"
     },
-
     {
         id: 9,
-        name: "Oral Rehydration Salts",
-        category: "Wellness",
-        price: 9,
-        description: "Electrolyte sachets for hydration support.",
+        name: "Shaltoux Sweet",
+        category: "Vitamins & Supplements",
+        price: 50,
+        description: "Supplement product. Check the label and ask a pharmacist if unsure.",
+        image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80"
+    },
+    {
+        id: 10,
+        name: "Omeshal Omeprazole 20mg",
+        category: "Ulcer Care",
+        price: 1300,
+        description: "Medicine for acid-related conditions. Use according to professional advice.",
+        image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=900&q=80"
+    },
+    {
+        id: 11,
+        name: "Epiderm B/S Cream 30g",
+        category: "Topical Creams & Ointments",
+        price: 1000,
+        description: "Topical skin-care product. Follow label directions and seek advice for persistent symptoms.",
         image: "https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=900&q=80"
+    },
+    {
+        id: 12,
+        name: "Shal'Artem X 12",
+        category: "Anti-Malaria",
+        price: 800,
+        description: "Antimalarial medicine. Test and consult a qualified professional before treatment.",
+        image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=900&q=80"
     }
 
 ];
